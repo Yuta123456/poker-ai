@@ -61,8 +61,8 @@ class DQNAgent(object):
             sess (tf.Session): Tensorflow Session object.
             scope (string): The name scope of the DQN agent.
             replay_memory_size (int): Size of the replay memory
-            replay_memory_init_size (int): Number of random experiences to sampel when initializing
-              the reply memory.
+            replay_memory_init_size (int): Number of random experiences to sampel 
+            when initializing  the reply memory.
             train_every (int): Train the agent every X steps.
             update_target_estimator_every (int): Copy parameters from the Q estimator to the
               target estimator every N steps
@@ -115,6 +115,7 @@ class DQNAgent(object):
             ts (list): a list of 5 elements that represent the transition
         '''
         (state, action, reward, next_state, done) = tuple(ts)
+
         self.feed_memory(state['obs'], action, reward, next_state['obs'], done)
         self.total_t += 1
         tmp = self.total_t - self.replay_memory_init_size
@@ -228,11 +229,11 @@ class Estimator():
 
         Args:
             action_num (int): the number output actions
-            state_shap (list): the shape of the state space
+            state_shape (list): the shape of the state space
         '''
         self.scope = scope
         self.action_num = action_num
-        self.learning_rate=learning_rate
+        self.learning_rate = learning_rate
         self.state_shape = state_shape if isinstance(state_shape, list) else [state_shape]
         self.mlp_layers = map(int, mlp_layers)
 

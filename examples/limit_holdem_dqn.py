@@ -17,7 +17,7 @@ eval_env = rlcard.make('limit-holdem', config={'seed': 0})
 # Set the iterations numbers and how frequently we evaluate the performance
 evaluate_every = 100
 evaluate_num = 1000
-episode_num = 100000
+episode_num = 1000
 
 # The intial memory size
 memory_init_size = 1000
@@ -44,6 +44,7 @@ with tf.Session() as sess:
                      train_every=train_every,
                      state_shape=env.state_shape,
                      mlp_layers=[512,512])
+    # ここで自分のもう一つのエージェントを追加しよう。
     random_agent = RandomAgent(action_num=eval_env.action_num)
     env.set_agents([agent, random_agent])
     eval_env.set_agents([agent, random_agent])

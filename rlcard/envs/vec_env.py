@@ -21,7 +21,7 @@ class VecEnv(object):
             config (dict): The same as the config in Env
         '''
         self.num = config['env_num']
-
+    
         # For multiprocessing
         ctx = mp.get_context('spawn')
         self.remotes, self.work_remotes = zip(*[ctx.Pipe() for _ in range(self.num)])
@@ -69,7 +69,7 @@ class VecEnv(object):
         while active_num > 0:
             # Agent playes
             # TODO: Currently we naively feed one obs to the agent. This can be improved via batch
-            commands = []
+            commands = []   
             actions = []
             for i in range(active_num):
                 opt = 'raw_step' if self.agents[player_ids[i]].use_raw else 'step'
@@ -77,7 +77,7 @@ class VecEnv(object):
                     action, _ = self.agents[player_ids[i]].eval_step(states[i])
                 else:
                     action = self.agents[player_ids[i]].step(states[i])
-                commands.append((opt, action))
+                commands.append((opt, action))                                              
                 actions.append(action)
 
             # Environment steps
