@@ -17,7 +17,7 @@ eval_env = rlcard.make('limit-holdem', config={'seed': 0})
 # Set the iterations numbers and how frequently we evaluate the performance
 evaluate_every = 100
 evaluate_num = 1000
-episode_num = 100000
+episode_num = 1000
 
 # The intial memory size
 memory_init_size = 1000

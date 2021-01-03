@@ -243,6 +243,7 @@ class Estimator():
             self._build_model()
             update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS, scope=tf.get_variable_scope().name)
         # Optimizer Parameters from original paper
+        # call compute_gradients() and apply_gradients()
         self.optimizer = tf.train.AdamOptimizer(learning_rate=self.learning_rate, name='dqn_adam')
 
         with tf.control_dependencies(update_ops):
