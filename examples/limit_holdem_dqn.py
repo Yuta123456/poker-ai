@@ -9,7 +9,7 @@ from rlcard.agents import DQNAgent
 from rlcard.agents import RandomAgent
 from rlcard.utils import set_global_seed, tournament
 from rlcard.utils import Logger
-
+import datetime
 # Make environment
 env = rlcard.make('limit-holdem', config={'seed': 0})
 eval_env = rlcard.make('limit-holdem', config={'seed': 0})
@@ -75,7 +75,9 @@ with tf.Session() as sess:
     logger.plot('DQN')
     
     # Save model
-    save_dir = 'models/limit_holdem_dqn'
+    save_dir = 'models/limit_holdem_dqn/'
+    dt = datetime.datetime.now()
+    save_dir += dt + '/'
     if not os.path.exists(save_dir):
         os.makedirs(save_dir)
     saver = tf.train.Saver()
