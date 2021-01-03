@@ -76,7 +76,7 @@ with tf.Session() as sess:
     
     # Save model
     save_dir = 'models/limit_holdem_dqn/'
-    dt = datetime.datetime.now()
+    dt = datetime.datetime.now().strftime('%Y_%m_%d_%H_%M_%S')
     save_dir += dt + '/'
     if not os.path.exists(save_dir):
         os.makedirs(save_dir)
