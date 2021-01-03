@@ -120,7 +120,7 @@ class DQNAgent(object):
         self.total_t += 1
         tmp = self.total_t - self.replay_memory_init_size
         if tmp>=0 and tmp%self.train_every == 0:
-            self.train()
+            self.train() 
 
     def step(self, state):
         ''' Predict the action for generating training data
@@ -178,6 +178,7 @@ class DQNAgent(object):
         q_values_next = self.q_estimator.predict(self.sess, next_state_batch)
         best_actions = np.argmax(q_values_next, axis=1)
         q_values_next_target = self.target_estimator.predict(self.sess, next_state_batch)
+        # ベルマン方程式のやつ
         target_batch = reward_batch + np.invert(done_batch).astype(np.float32) * \
             self.discount_factor * q_values_next_target[np.arange(self.batch_size), best_actions]
 

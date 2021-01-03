@@ -46,7 +46,7 @@ class VecEnv(object):
         self.agents = agents
 
     def run(self, is_training=False):
-        ''' Run X complete games, where X is the number of environemnts.
+        ''' Run X complete games, where X is the number of environments.
             The input/output are similar to Env. The difference is that
             The transitions for each player are stacked over the environments
         '''
@@ -69,7 +69,7 @@ class VecEnv(object):
         while active_num > 0:
             # Agent playes
             # TODO: Currently we naively feed one obs to the agent. This can be improved via batch
-            commands = []   
+            commands = []
             actions = []
             for i in range(active_num):
                 opt = 'raw_step' if self.agents[player_ids[i]].use_raw else 'step'
