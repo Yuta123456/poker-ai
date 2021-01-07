@@ -37,7 +37,7 @@ with tf.Session() as sess:
     global_step = tf.Variable(0, name='global_step', trainable=False)
 
     # Set up the agents
-    agent = MyDQNAgent(sess,
+    agent = MyDQNAgent(
                      scope='dqn',
                      action_num=env.action_num,
                      replay_memory_init_size=memory_init_size,
