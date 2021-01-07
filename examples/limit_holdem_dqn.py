@@ -5,7 +5,7 @@ import tensorflow as tf
 import os
 
 import rlcard
-from rlcard.agents import DQNAgent
+from rlcard.agents.my_dqn_agent import MyDQNAgent
 from rlcard.agents import RandomAgent
 from rlcard.utils import set_global_seed, tournament
 from rlcard.utils import Logger
@@ -37,7 +37,7 @@ with tf.Session() as sess:
     global_step = tf.Variable(0, name='global_step', trainable=False)
 
     # Set up the agents
-    agent = DQNAgent(sess,
+    agent = MyDQNAgent(sess,
                      scope='dqn',
                      action_num=env.action_num,
                      replay_memory_init_size=memory_init_size,
