@@ -366,8 +366,9 @@ class EstimatorNetwork(nn.Module):
         fc.append(nn.BatchNorm1d(layer_dims[0]))
         for i in range(len(layer_dims)-1):
             fc.append(nn.Linear(layer_dims[i], layer_dims[i+1], bias=True))
-            fc.append(nn.Tanh())
+            fc.append(nn.ReLU())
         fc.append(nn.Linear(layer_dims[-1], self.action_num, bias=True))
+        fc.append(nn.Identity(layer_dims[-1],self.action_num))
         self.fc_layers = nn.Sequential(*fc)
 
     def forward(self, s):
