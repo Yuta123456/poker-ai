@@ -6,10 +6,12 @@ import os
 
 import rlcard
 from rlcard.agents.my_dqn_agent import MyDQNAgent
+from rlcard.agents.dqn_agent import DQNAgent
 from rlcard.agents import RandomAgent
 from rlcard.utils import set_global_seed, tournament
 from rlcard.utils import Logger
 import datetime
+
 # Make environment
 env = rlcard.make('limit-holdem', config={'seed': 0})
 eval_env = rlcard.make('limit-holdem', config={'seed': 0})
@@ -17,7 +19,7 @@ eval_env = rlcard.make('limit-holdem', config={'seed': 0})
 # Set the iterations numbers and how frequently we evaluate the performance
 evaluate_every = 100
 evaluate_num = 1000
-episode_num = 1000
+episode_num = 100000
 
 # The intial memory size
 memory_init_size = 1000
@@ -37,7 +39,7 @@ with tf.Session() as sess:
     global_step = tf.Variable(0, name='global_step', trainable=False)
 
     # Set up the agents
-    agent = MyDQNAgent(
+    agent = DQNAgent(sess,
                      scope='dqn',
                      action_num=env.action_num,
                      replay_memory_init_size=memory_init_size,

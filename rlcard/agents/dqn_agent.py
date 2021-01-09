@@ -271,9 +271,11 @@ class Estimator():
 
         # Fully connected layers
         fc = tf.contrib.layers.flatten(X)
-        for dim in self.mlp_layers:
-            fc = tf.contrib.layers.fully_connected(fc, dim, activation_fn=tf.tanh)
-        self.predictions = tf.contrib.layers.fully_connected(fc, self.action_num, activation_fn=None)
+        # for dim in self.mlp_layers:
+        #     fc = tf.contrib.layers.fully_connected(fc, dim, activation_fn=tf.tanh)
+        fc = tf.contrib.layers.fully_connected(fc, 512, activation_fn=tf.nn.relu)
+        fc = tf.contrib.layers.fully_connected(fc, 512, activation_fn=tf.nn.relu)
+        self.predictions = tf.contrib.layers.fully_connected(fc, self.action_num, activation_fn=tf.sigmoid)
 
         # Get the predictions for the chosen actions only
         gather_indices = tf.range(batch_size) * tf.shape(self.predictions)[1] + self.actions_pl

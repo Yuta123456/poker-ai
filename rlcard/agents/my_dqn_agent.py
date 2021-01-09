@@ -362,6 +362,7 @@ class EstimatorNetwork(nn.Module):
 
         # build the Q network
         layer_dims = [np.prod(self.state_shape)] + self.mlp_layers
+        print("layer_dims : {}".format(layer_dims))
         fc = [nn.Flatten()]
         fc.append(nn.BatchNorm1d(layer_dims[0]))
         for i in range(len(layer_dims)-1):
