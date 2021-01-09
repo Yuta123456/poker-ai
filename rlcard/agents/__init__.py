@@ -16,7 +16,7 @@ if 'tensorflow' in installed_packages:
 if 'torch' in installed_packages:
     from rlcard.agents.dqn_agent_pytorch import DQNAgent as DQNAgentPytorch
     from rlcard.agents.nfsp_agent_pytorch import NFSPAgent as NFSPAgentPytorch
-    from rlcard.agents.my_dqn_agent import MyDQNAgent
+    from rlcard.agents.my_dqn_agent import MyDQNAgent as DQNAgentPytorch
 from rlcard.agents.cfr_agent import CFRAgent
 from rlcard.agents.limit_holdem_human_agent import HumanAgent as LimitholdemHumanAgent
 from rlcard.agents.nolimit_holdem_human_agent import HumanAgent as NolimitholdemHumanAgent
