@@ -17,4 +17,4 @@ experiments/
 newtest/
 dist/
 cfr_model/
-experiments
+examples/limit_holdem_dqn.py

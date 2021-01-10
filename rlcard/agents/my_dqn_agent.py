@@ -33,7 +33,7 @@ from copy import deepcopy
 
 from rlcard.agents.dqn_agent import Memory
 from rlcard.utils.utils import remove_illegal
-
+from rlcard.utils import state_add_hand
 Transition = namedtuple('Transition', ['state', 'action', 'reward', 'next_state', 'done'])
 
 
@@ -128,10 +128,12 @@ class MyDQNAgent(object):
         '''
         (state, action, reward, next_state, done) = tuple(ts)
         # ここでobsを変更
-        # state['obs'] = state_add_hand(state['obs'])
-        # next_state['obs'] = state_add_hand(next_state['obs'])
+        #print("state shape:{} n_state_shape:{}".format(state['obs'].shape, next_state['obs'].shape))
+        state['obs'] = state_add_hand.state_add_hand(state['obs'])
+        next_state['obs'] = state_add_hand.state_add_hand(next_state['obs'])
         self.feed_memory(state['obs'], action, reward, next_state['obs'], done)
         self.total_t += 1
+
         tmp = self.total_t - self.replay_memory_init_size
         if tmp>=0 and tmp%self.train_every == 0:
             return self.train()
@@ -193,7 +195,6 @@ class MyDQNAgent(object):
         # Calculate best next actions using Q-network (Double DQN)
         q_values_next = self.q_estimator.predict_nograd(next_state_batch)
         best_actions = np.argmax(q_values_next, axis=1)
-
         # Evaluate best next actions using Target-network (Double DQN)
         q_values_next_target = self.target_estimator.predict_nograd(next_state_batch)
         target_batch = reward_batch + np.invert(done_batch).astype(np.float32) * \
@@ -301,6 +302,7 @@ class Estimator(object):
           np.ndarray of shape (batch_size, NUM_VALID_ACTIONS) containing the estimated
           action values.
         '''
+        s = state_add_hand.state_add_hand(s)
         with torch.no_grad():
             s = torch.from_numpy(s).float().to(self.device)
             q_as = self.qnet(s).cpu().numpy()
@@ -366,7 +368,6 @@ class EstimatorNetwork(nn.Module):
 
         # build the Q network
         layer_dims = [np.prod(self.state_shape)] + self.mlp_layers
-        print("layer_dims : {}".format(layer_dims))
         fc = [nn.Flatten()]
         fc.append(nn.BatchNorm1d(layer_dims[0]))
         for i in range(len(layer_dims)-1):
