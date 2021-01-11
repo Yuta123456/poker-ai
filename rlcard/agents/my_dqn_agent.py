@@ -131,6 +131,7 @@ class MyDQNAgent(object):
         #print("state shape:{} n_state_shape:{}".format(state['obs'].shape, next_state['obs'].shape))
         state['obs'] = state_add_hand.state_add_hand(state['obs'])
         next_state['obs'] = state_add_hand.state_add_hand(next_state['obs'])
+        reward = reward + 20 / 40
         self.feed_memory(state['obs'], action, reward, next_state['obs'], done)
         self.total_t += 1
 
