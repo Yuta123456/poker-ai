@@ -365,7 +365,6 @@ class EstimatorNetwork(nn.Module):
         self.action_num = action_num
         self.state_shape = state_shape
         self.mlp_layers = mlp_layers
-
         # build the Q network
         layer_dims = [np.prod(self.state_shape)] + self.mlp_layers
         fc = [nn.Flatten()]
