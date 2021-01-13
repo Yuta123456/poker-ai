@@ -128,10 +128,7 @@ class MyDQNAgent(object):
         '''
         (state, action, reward, next_state, done) = tuple(ts)
         # ここでobsを変更
-        #print("state shape:{} n_state_shape:{}".format(state['obs'].shape, next_state['obs'].shape))
-        state['obs'] = state_add_hand.state_add_hand(state['obs'])
-        next_state['obs'] = state_add_hand.state_add_hand(next_state['obs'])
-        reward = reward + 20 / 40
+        reward = (reward + 20) / 40
         self.feed_memory(state['obs'], action, reward, next_state['obs'], done)
         self.total_t += 1
 
@@ -198,11 +195,12 @@ class MyDQNAgent(object):
         best_actions = np.argmax(q_values_next, axis=1)
         # Evaluate best next actions using Target-network (Double DQN)
         q_values_next_target = self.target_estimator.predict_nograd(next_state_batch)
+        # np.invert([True, False]) => array[False, True]
         target_batch = reward_batch + np.invert(done_batch).astype(np.float32) * \
             self.discount_factor * q_values_next_target[np.arange(self.batch_size), best_actions]
 
         # Perform gradient descent update
-        state_batch = np.array(state_batch)
+        state_batch = np.array(state_add_hand.state_add_hand(state_batch, batch=True))
 
         loss = self.q_estimator.update(state_batch, action_batch, target_batch)
         print('\rINFO - Agent {}, step {}, rl-loss: {}'.format(self.scope, self.total_t, loss), end='')
@@ -303,7 +301,7 @@ class Estimator(object):
           np.ndarray of shape (batch_size, NUM_VALID_ACTIONS) containing the estimated
           action values.
         '''
-        s = state_add_hand.state_add_hand(s)
+        s = state_add_hand.state_add_hand(s, batch = True)
         with torch.no_grad():
             s = torch.from_numpy(s).float().to(self.device)
             q_as = self.qnet(s).cpu().numpy()
