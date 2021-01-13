@@ -4,9 +4,7 @@ import numpy as np
 NUMBER_OF_SUIT = 4
 NUMBER_OF_NUM = 13
 
-def state_add_hand(state, batch = False):
-    if not batch:
-        return array_add_hand(state)
+def state_add_hand(state):
     N = len(state)
     res = np.empty((N, 82))
     for i in range(N):
@@ -38,7 +36,8 @@ def array_add_hand(state):
     for i in range(len(check_hand_functions)):
         if check_hand_functions[i](card_array):
             hand_kind[i] = 1
-            break
+            return np.append(state, hand_kind)
+    hand_kind[-1] = 1
     return np.append(state, hand_kind)
 
 

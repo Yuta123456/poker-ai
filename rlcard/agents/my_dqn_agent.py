@@ -200,7 +200,7 @@ class MyDQNAgent(object):
             self.discount_factor * q_values_next_target[np.arange(self.batch_size), best_actions]
 
         # Perform gradient descent update
-        state_batch = np.array(state_add_hand.state_add_hand(state_batch, batch=True))
+        state_batch = np.array(state_add_hand.state_add_hand(state_batch))
 
         loss = self.q_estimator.update(state_batch, action_batch, target_batch)
         print('\rINFO - Agent {}, step {}, rl-loss: {}'.format(self.scope, self.total_t, loss), end='')
@@ -301,7 +301,7 @@ class Estimator(object):
           np.ndarray of shape (batch_size, NUM_VALID_ACTIONS) containing the estimated
           action values.
         '''
-        s = state_add_hand.state_add_hand(s, batch = True)
+        s = state_add_hand.state_add_hand(s)
         with torch.no_grad():
             s = torch.from_numpy(s).float().to(self.device)
             q_as = self.qnet(s).cpu().numpy()
