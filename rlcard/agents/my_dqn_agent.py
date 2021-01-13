@@ -134,9 +134,6 @@ class MyDQNAgent(object):
         reward = (reward + 20) / 40
         self.feed_memory(state['obs'], action, reward, next_state['obs'], done)
         self.total_t += 1
-        if done:
-            self.imformation['hands'].append(state_add_hand.state_add_hand(state['obs']))
-        self.imformation['actions'].append(action)
         tmp = self.total_t - self.replay_memory_init_size
         if tmp>=0 and tmp%self.train_every == 0:
             return self.train()
