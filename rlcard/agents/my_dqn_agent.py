@@ -118,6 +118,9 @@ class MyDQNAgent(object):
         # Create replay memory
         self.memory = Memory(replay_memory_size, batch_size)
 
+        self.imformation = {}
+        self.imformation['actions'] = []
+        self.imformation['hands'] = []
     def feed(self, ts):
         ''' Store data in to replay buffer and train the agent. There are two stages.
             In stage 1, populate the memory without training
@@ -131,7 +134,9 @@ class MyDQNAgent(object):
         reward = (reward + 20) / 40
         self.feed_memory(state['obs'], action, reward, next_state['obs'], done)
         self.total_t += 1
-
+        if done:
+            self.imformation['hands'].append(state_add_hand.state_add_hand(state['obs']))
+        self.imformation['actions'].append(action)
         tmp = self.total_t - self.replay_memory_init_size
         if tmp>=0 and tmp%self.train_every == 0:
             return self.train()
